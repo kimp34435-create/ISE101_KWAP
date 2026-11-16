@@ -31,16 +31,16 @@ export default function AnnouncementCard({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#FFFFFF',
-    padding: 16,
+    padding: 18,
     marginVertical: 8,
-    borderRadius: 10,
+    borderRadius: 12,
     borderWidth: 1,
     borderColor: '#DCE3EC',
+    gap: 4,
   },
   title: {
     fontSize: 17,
     fontWeight: '700',
-    marginBottom: 6,
     color: '#172B4D',
   },
   category: {
@@ -49,15 +49,17 @@ const styles = StyleSheet.create({
   },
   status: {
     fontSize: 14,
-    marginTop: 6,
-    marginBottom: 12,
     color: '#526579',
   },
   button: {
+    minHeight: 48,
     backgroundColor: '#2563EB',
-    padding: 10,
-    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    marginTop: 8,
+    borderRadius: 8,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonPressed: {
     opacity: 0.75,

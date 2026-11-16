@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 import { getUnreadAnnouncements } from '../services/announcementUtils';
 import type { Announcement } from '../types/announcement';
+import ActionButton from './ActionButton';
 import AnnouncementCard from './AnnouncementCard';
 
 const initialAnnouncements: Announcement[] = [
@@ -23,26 +24,40 @@ export default function AnnouncementPanel() {
     );
   };
 
+  const markAllAsRead = () => {
+    setAnnouncements((currentAnnouncements) =>
+      currentAnnouncements.map((announcement) => ({ ...announcement, read: true }))
+    );
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Campus Announcements</Text>
-      <Text style={styles.counter}>
-        Total: {announcements.length} · Unread: {unreadCount}
-      </Text>
-      <ScrollView
+      <View style={styles.listHeader}>
+        <Text style={styles.heading}>Campus Announcements</Text>
+        <Text style={styles.counter} accessibilityLiveRegion="polite">
+          Total: {announcements.length} · Unread: {unreadCount}
+        </Text>
+        <ActionButton
+          label="Mark all as read"
+          onPress={markAllAsRead}
+          disabled={unreadCount === 0}
+        />
+      </View>
+      <FlatList
         style={styles.list}
         contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}>
-        {announcements.map((announcement) => (
+        data={announcements}
+        keyExtractor={(announcement) => announcement.id}
+        renderItem={({ item: announcement }) => (
           <AnnouncementCard
-            key={announcement.id}
             title={announcement.title}
             category={announcement.category}
             read={announcement.read}
             onMarkRead={() => toggleAnnouncementRead(announcement.id)}
           />
-        ))}
-      </ScrollView>
+        )}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 }
@@ -52,23 +67,27 @@ const styles = StyleSheet.create({
     width: '100%',
     flex: 1,
     marginTop: 24,
+    maxWidth: 640,
+    alignSelf: 'center',
+  },
+  listHeader: {
+    gap: 10,
+    marginBottom: 8,
   },
   heading: {
     fontSize: 21,
     fontWeight: '700',
-    marginBottom: 10,
     color: '#172B4D',
   },
   counter: {
     fontSize: 15,
     fontWeight: '600',
-    marginBottom: 12,
     color: '#2563EB',
   },
   list: {
     flex: 1,
   },
   listContent: {
-    paddingBottom: 24,
+    paddingBottom: 16,
   },
 });
