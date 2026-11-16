@@ -4,6 +4,7 @@ import type { Announcement } from '../types/announcement';
 
 type AnnouncementCardProps = Pick<Announcement, 'title' | 'category' | 'read'> & {
   onMarkRead: () => void;
+  onViewDetails: () => void;
 };
 
 export default function AnnouncementCard({
@@ -11,12 +12,20 @@ export default function AnnouncementCard({
   category,
   read,
   onMarkRead,
+  onViewDetails,
 }: AnnouncementCardProps) {
   return (
     <View style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.category}>Category: {category}</Text>
       <Text style={styles.status}>Status: {read ? 'Read' : 'Unread'}</Text>
+      <Pressable
+        accessibilityRole="link"
+        accessibilityLabel={`View details: ${title}`}
+        onPress={onViewDetails}
+        style={({ pressed }) => [styles.detailsButton, pressed && styles.buttonPressed]}>
+        <Text style={styles.detailsButtonText}>View details</Text>
+      </Pressable>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`${read ? 'Mark as unread' : 'Mark as read'}: ${title}`}
@@ -60,6 +69,20 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  detailsButton: {
+    minHeight: 48,
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#2563EB',
+  },
+  detailsButtonText: {
+    color: '#174A7E',
+    fontWeight: '600',
   },
   buttonPressed: {
     opacity: 0.75,

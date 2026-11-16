@@ -1,16 +1,12 @@
 import { useState } from 'react';
+import { router } from 'expo-router';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 
+import { announcements as initialAnnouncements } from '../services/announcements';
 import { getUnreadAnnouncements } from '../services/announcementUtils';
 import type { Announcement } from '../types/announcement';
 import ActionButton from './ActionButton';
 import AnnouncementCard from './AnnouncementCard';
-
-const initialAnnouncements: Announcement[] = [
-  { id: 'ANN-001', title: 'Enrollment Reminder', category: 'Academic', read: false },
-  { id: 'ANN-002', title: 'Sports Festival Announcement', category: 'Events', read: false },
-  { id: 'ANN-003', title: 'Campus Clean-up Drive', category: 'Notice', read: true },
-];
 
 export default function AnnouncementPanel() {
   const [announcements, setAnnouncements] = useState(initialAnnouncements);
@@ -54,6 +50,9 @@ export default function AnnouncementPanel() {
             category={announcement.category}
             read={announcement.read}
             onMarkRead={() => toggleAnnouncementRead(announcement.id)}
+            onViewDetails={() =>
+              router.push({ pathname: '/announcements/[id]', params: { id: announcement.id } })
+            }
           />
         )}
         showsVerticalScrollIndicator={false}

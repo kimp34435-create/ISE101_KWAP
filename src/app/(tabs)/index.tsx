@@ -1,7 +1,7 @@
-import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { StyleSheet, View, useWindowDimensions } from 'react-native';
 
-import AnnouncementPanel from '../components/AnnouncementPanel';
-import SectionHeading from '../components/SectionHeading';
+import AnnouncementPanel from '../../components/AnnouncementPanel';
+import SectionHeading from '../../components/SectionHeading';
 
 export default function HomeScreen() {
   const { width } = useWindowDimensions();
@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     paddingHorizontal: 24,
     paddingTop: 24,
-    backgroundColor: '#F4F7FB',
     paddingBottom: 8,
+    backgroundColor: '#F4F7FB',
   },
   compactContainer: {
     paddingHorizontal: 16,
